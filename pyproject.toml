@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "tg-bybit"
+version = "0.1.0"
+description = ""
+authors = ["ivanovsdesign <78684921+ivanovsdesign@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pybit = "^5.7.0"
+aiogram = "^3.7.0"
+pandas = "^2.2.2"
+numpy = "^1.26.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
