@@ -9,6 +9,8 @@ from aiogram.types import (
                     InlineKeyboardButton,
                     Message
                 )
+from aiogram.types.input_file import InputFile, BufferedInputFile
+from aiogram.types import FSInputFile
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.filters.command import Command
@@ -16,7 +18,11 @@ from aiogram.types import ContentType
 from aiogram import F
 from dotenv import dotenv_values
 
+from utils.visualization import generate_plot
+
 config = dotenv_values('.env')
+
+bot = Bot(token = config['TG_API_TOKEN'])
 
 dp = Dispatcher()
 router = Router()
@@ -51,19 +57,26 @@ async def send_welcome(message: Message):
 @dp.message(Command('stats'))
 async def send_stats(message: Message):
     data = await get_bybit_data(pair)
+
     stats = calculate_statistics(data)
+    plot_buf = generate_plot(data, pair)
+
     response_message = (
         f"Statistics for the last 15 minutes for {pair}:\n"
-        f"Open: {stats['open']}\n"
-        f"High: {stats['high']}\n"
-        f"Low: {stats['low']}\n"
-        f"Close: {stats['close']}\n"
-        f"Volume: {stats['volume']}"
+        f"▫️ Open: {stats['open']}\n"
+        f"🟢 High: {stats['high']}\n"
+        f"🔴 Low: {stats['low']}\n"
+        f"▪️ Close: {stats['close']}\n"
+        f"📊 Volume: {stats['volume']}"
     )
+
+    #photo = BufferedInputFile(plot_buf, filename='temp/plot.png')
+    photo = FSInputFile("temp/plot.png")
+
     await message.reply(response_message, parse_mode=ParseMode.MARKDOWN)
+    await bot.send_photo(message.chat.id, photo=photo)
 
 async def main() -> None:
-    bot = Bot(token = config['TG_API_TOKEN'])
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
