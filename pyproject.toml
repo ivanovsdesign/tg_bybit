@@ -11,6 +11,7 @@ pybit = "^5.7.0"
 aiogram = "^3.7.0"
 pandas = "^2.2.2"
 numpy = "^1.26.4"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
