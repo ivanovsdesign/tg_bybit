@@ -7,6 +7,8 @@ import plotly.subplots as ms
 import plotly.graph_objects as go
 import pandas as pd
 
+import os
+
 
 def generate_plot(data: dict, pair: str) -> io.BytesIO:
     """
@@ -68,9 +70,9 @@ def generate_candlesticks_volume_chart(data: dict, pair: str) -> None:
             open=opens,
             increasing_line_color="green",
             decreasing_line_color="red",
-            row=1,
-            col=1,
-        )
+        ),
+        row=1,
+        col=1,
     )
 
     # Add Volume Chart to Row 2 of subplot
@@ -85,3 +87,8 @@ def generate_candlesticks_volume_chart(data: dict, pair: str) -> None:
         xaxis1_rangeslider_visible=False,
         xaxis2_rangeslider_visible=True,
     )
+
+    if not os.path.exists("temp"):
+        os.mkdir("temp")
+
+    fig.write_image("temp/plot.png")

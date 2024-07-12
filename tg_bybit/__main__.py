@@ -18,7 +18,7 @@ from aiogram.types import ContentType
 from aiogram import F
 from dotenv import dotenv_values
 
-from utils.visualization import generate_plot
+from utils.visualization import generate_plot, generate_candlesticks_volume_chart
 
 from ta import add_all_ta_features
 from ta.volatility import BollingerBands
@@ -80,7 +80,7 @@ async def send_stats(message: Message):
     data = await get_bybit_data(pair)
 
     stats = calculate_statistics(data)
-    plot_buf = generate_plot(data, pair)
+    plot_buf = generate_candlesticks_volume_chart(data, pair)
 
     response_message = (
         f"Statistics for the last 15 minutes for {pair}:\n"
