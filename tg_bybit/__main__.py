@@ -20,6 +20,11 @@ from dotenv import dotenv_values
 
 from utils.visualization import generate_plot
 
+from ta import add_all_ta_features
+from ta.volatility import BollingerBands
+
+import pandas as pd
+
 config = dotenv_values('.env')
 
 bot = Bot(token = config['TG_API_TOKEN'])
@@ -69,6 +74,8 @@ async def send_stats(message: Message):
         f"▪️ Close: {stats['close']}\n"
         f"📊 Volume: {stats['volume']}"
     )
+
+    
 
     #photo = BufferedInputFile(plot_buf, filename='temp/plot.png')
     photo = FSInputFile("temp/plot.png")
